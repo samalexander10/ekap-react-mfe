@@ -1,0 +1,30 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: hr-service
+  r2dbc:
+    url: ${POSTGRES_URL:r2dbc:postgresql://localhost:5432/ekap}
+    username: ekap
+    password: ${POSTGRES_PASSWORD:ekap_dev}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+minio:
+  endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+  access-key: ${MINIO_ACCESS_KEY:ekap_minio}
+  secret-key: ${MINIO_SECRET_KEY:ekap_minio_secret_dev}
+  bucket: hr-documents
+
+anthropic:
+  api-key: ${ANTHROPIC_API_KEY}
+  api-url: https://api.anthropic.com/v1/messages
+  model: claude-opus-4-5
+
+logging:
+  level:
+    com.ekap: DEBUG

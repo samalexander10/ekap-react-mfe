@@ -1,0 +1,70 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Markdown rendered inside assistant bubbles */
+.markdown-content p {
+  margin: 0 0 0.5rem 0;
+}
+.markdown-content p:last-child {
+  margin-bottom: 0;
+}
+.markdown-content ul, .markdown-content ol {
+  margin: 0.25rem 0 0.5rem 1.25rem;
+  padding: 0;
+}
+.markdown-content li {
+  margin-bottom: 0.2rem;
+}
+.markdown-content code {
+  background: #e5e7eb;
+  color: #1f2937;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-family: 'Menlo', 'Consolas', monospace;
+}
+.markdown-content pre {
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.82rem;
+}
+.markdown-content strong {
+  font-weight: 700;
+}
+.markdown-content h1, .markdown-content h2, .markdown-content h3 {
+  margin: 0.5rem 0 0.25rem 0;
+  font-size: 1em;
+}
+
+/* Cursor blink animation */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
