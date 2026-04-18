@@ -1,0 +1,57 @@
+# Local development override — remaps all host ports so this stack
+# can run alongside ekap-iframe without conflicts.
+# Frontend dev servers are started separately by start-local.sh.
+
+version: "3.9"
+
+services:
+  # ── Infrastructure (shifted host ports) ──────────────────────────────
+  postgres:
+    ports:
+      - "5533:5432"
+
+  redis:
+    ports:
+      - "6479:6379"
+
+  kafka:
+    ports:
+      - "29192:29092"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29192
+
+  weaviate:
+    ports:
+      - "8180:8080"
+
+  minio:
+    ports:
+      - "9100:9000"
+      - "9101:9001"
+
+  # ── Backend Services (shifted host ports) ─────────────────────────────
+  chat-service:
+    ports:
+      - "8100:8000"
+    environment:
+      POSTGRES_URL: postgresql+asyncpg://ekap:${POSTGRES_PASSWORD:-ekap_dev}@postgres:5432/ekap
+      REDIS_URL: redis://redis:6379
+      WEAVIATE_URL: http://weaviate:8080
+      HR_SERVICE_URL: http://hr-service:8081
+
+  hr-service:
+    ports:
+      - "8101:8081"
+    environment:
+      POSTGRES_URL: r2dbc:postgresql://ekap:${POSTGRES_PASSWORD:-ekap_dev}@postgres:5432/ekap
+      MINIO_ENDPOINT: http://minio:9000
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+  # ── Disable production frontend containers ────────────────────────────
+  chat-shell:
+    profiles:
+      - production-only
+
+  hr-namechange:
+    profiles:
+      - production-only
