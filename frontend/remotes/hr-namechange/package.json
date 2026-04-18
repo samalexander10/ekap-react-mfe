@@ -2,6 +2,7 @@
   "name": "ekap-hr-namechange-remote",
   "version": "0.1.0",
   "scripts": {
+    "dev": "webpack serve --mode development",
     "start": "webpack serve --mode development",
     "build": "webpack --mode production"
   },
