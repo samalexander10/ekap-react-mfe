@@ -1,6 +1,7 @@
 package com.ekap.hrservice.service;
 
 import io.weaviate.client.WeaviateClient;
+import io.weaviate.client.base.Result;
 import io.weaviate.client.v1.graphql.model.GraphQLResponse;
 import io.weaviate.client.v1.graphql.query.argument.NearTextArgument;
 import io.weaviate.client.v1.graphql.query.fields.Field;
@@ -27,7 +28,7 @@ public class HrRagService {
                 .concepts(new String[]{query})
                 .build();
 
-            GraphQLResponse response = weaviateClient.graphQL().get()
+            io.weaviate.client.base.Result<GraphQLResponse> result = weaviateClient.graphQL().get()
                 .withClassName("HrPolicy")
                 .withFields(
                     Field.builder().name("content").build(),
@@ -37,6 +38,7 @@ public class HrRagService {
                 .withNearText(nearText)
                 .withLimit(5)
                 .run();
+            GraphQLResponse response = result.getResult();
 
             if (response.getData() != null) {
                 Map<String, Object> data = (Map<String, Object>) response.getData();
