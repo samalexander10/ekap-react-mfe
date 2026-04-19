@@ -1,7 +1,17 @@
-from .connection import AsyncSessionLocal, engine, init_db
-from sqlalchemy.ext.asyncio import AsyncSession
-from typing import AsyncGenerator
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.orm import DeclarativeBase
+from app.config import settings
 
-async def get_db() -> AsyncGenerator[AsyncSession, None]:
+engine = create_async_engine(settings.postgres_url, echo=False)
+AsyncSessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+
+class Base(DeclarativeBase):
+    pass
+
+async def init_db():
+    async with engine.begin() as conn:
+        pass  # migrations handled by docker init scripts
+
+async def get_db():
     async with AsyncSessionLocal() as session:
         yield session
