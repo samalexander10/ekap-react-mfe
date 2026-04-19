@@ -26,5 +26,5 @@ class AuditLog(Base):
     query_text = Column(Text)
     vertical = Column(String(50))
     sensitivity_level = Column(String(20))
-    metadata = Column(JSONB)
+    extra_metadata = Column("metadata", JSONB)   # 'metadata' is reserved by SQLAlchemy
     created_at = Column(DateTime(timezone=True), server_default=func.now())
